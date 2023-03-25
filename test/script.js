@@ -13,7 +13,6 @@ const poster_path = document.querySelector( ".poster_path" );
 const release_date = document.querySelector( ".release_date" );
 const original_langauge = document.querySelector( ".original_language" );
 const youtube_trailer_path = document.querySelector( ".youtube_trailer_path" );
-const footer = document.querySelector( '#footer' );
 
 const findMovieString = ( q ) => { return `https://api.themoviedb.org/3/search/movie?api_key=${ apiKey }&query=${ q }`; };
 
@@ -29,11 +28,9 @@ const posterLink = ( poster_path ) => { return `https://image.tmdb.org/t/p/origi
 
 const x = [];
 
-
 searchButton.addEventListener( "click", async ( event ) =>
 {
     x.length = 0;
-    document.querySelector( "#msg" ).innerText = "";
     for ( e of document.querySelectorAll( ".mystyle" ) ) { e.remove(); }
 
     const q = inputBox.value;
@@ -42,7 +39,7 @@ searchButton.addEventListener( "click", async ( event ) =>
     let response = await axios.get( findMovieString( q ) );
     let movieList = response.data.results;
 
-    if ( movieList.length === 0 ) { document.querySelector( "#msg" ).innerHTML = `Oops, it looks like we don't have ${ q } in our library yet. ☹️ <br> <br> But don't give up hope just yet! We're always adding new titles.😊`; };
+    // console.log( movieList[ 0 ] );
 
     for ( let i = 0; i <= movieList.length; i++ )
     {
@@ -88,97 +85,70 @@ searchButton.addEventListener( "click", async ( event ) =>
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
         if ( movieList[ i ].poster_path ) { copyMovieContainer.querySelector( ".poster_path" ).src = posterLink( movieList[ i ].poster_path ); } else { copyMovieContainer.querySelector( ".poster_path" ).src = "blank.jpg"; }
 
 
         copyMovieContainer.querySelector( ".release_date" ).innerText = new Date( movieList[ i ].release_date ).getFullYear();
         copyMovieContainer.querySelector( ".original_language" ).innerText = langFullName( movieList[ i ].original_language );
 
-    
-
-        copyMovieContainer.querySelector( ".youtube_trailer_path" ).addEventListener( "click", async ( e ) =>
+        try
         {
-
-            let iframeVideo = document.querySelector( "#iframe_video" );
-            let videoID;
+            copyMovieContainer.querySelector( ".youtube_trailer_path" ).href = youtubeLink( response2.data.results[ 0 ].key );
+        } catch ( e )
+        {
+            // const searchUrl = `https://cors-anywhere.herokuapp.com/https://www.youtube.com/results?search_query=${ movieList[ i ].title } ${ new Date( movieList[ i ].release_date ).getFullYear() } trailer`;
+            const searchUrl = `https://corsproxy.io/?https://www.youtube.com/results?search_query=${ movieList[ i ].title } ${ new Date( movieList[ i ].release_date ).getFullYear() } trailer`;
             try
             {
-                videoID = response2.data.results[ 0 ].key;
-                iframeVideo.src = youtubeEmbedLink( videoID ) + "?mute=1&autoplay=1";
-                iframeVideo.style.display = "block";
-                console.log( "from api: ", movieList[ i ].title, videoID );
+                const response = await fetch( searchUrl );
+                const text = await response.text();
+                const match = text.match( /"videoId":"([^"]*)"/ );
+                const videoId = match ? match[ 1 ] : null;
+                const videoLink = videoId ? `https://www.youtube.com/watch?v=${ videoId }` : 'Not Available';
+                copyMovieContainer.querySelector( ".youtube_trailer_path" ).href = videoLink;
             } catch ( e )
             {
-                const searchUrl = `https://corsproxy.io/?https://www.youtube.com/results?search_query=${ movieList[ i ].title } ${ new Date( movieList[ i ].release_date ).getFullYear() } trailer`;
-                try
-                {
-                    const response = await fetch( searchUrl );
-                    const text = await response.text();
-                    const match = text.match( /"videoId":"([^"]*)"/ );
-                    videoID = match ? match[ 1 ] : null;
-                    iframeVideo.src = youtubeEmbedLink( videoID ) + "?mute=1&autoplay=1";
-                    iframeVideo.style.display = "block";
-                    console.log( "from regex cors: ", movieList[ i ].title, videoID );
-
-
-
-                } catch ( e )
-                {
-
-                    console.log( "here is an error", e );
-
-                }
+                // console.error( 'Error searching YouTube:', e );
+                copyMovieContainer.querySelector( ".youtube_trailer_path" ).style.visibility = "hidden";
             }
 
-        } );
 
 
+
+            // copyMovieContainer.querySelector( ".youtube_trailer_path" ).style.visibility = "hidden";
+
+
+
+
+
+
+
+        }
 
         container.appendChild( copyMovieContainer );
     };
 
+    
+
+
+ 
 
 
 } );
 
-document.addEventListener( "keydown", ( e ) =>
-{
-    if ( e.key === 'Escape' )
-    {
-        let player = document.querySelector( "#iframe_video" );
-        player.src = "";
-        player.style.display = "none";
-    }
-} );
 
-document.querySelector( "#iframe_video" ).addEventListener( "keydown", ( e ) =>
-{
-    if ( e.key === 'Escape' )
-    {
-        let player = document.querySelector( "#iframe_video" );
-        player.src = "";
-        player.style.display = "none";
-    }
-} );
 
-document.addEventListener( "click", ( e ) =>
-{
-    if ( !e.target.closest( "body *" ) )
-    {
-        let player = document.querySelector( "#iframe_video" );
-        player.src = "";
-        player.style.display = "none";
-    }
-} );
 
-window.addEventListener( "scroll", ( e ) =>
-{
-    if ( container.getBoundingClientRect().bottom <= footer.getBoundingClientRect().height )
-    {
-        footer.classList.add( 'transparent' );
-    } else
-    {
-        footer.classList.remove( 'transparent' );
-    }
-} );
 

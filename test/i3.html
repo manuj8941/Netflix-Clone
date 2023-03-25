@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <style>
+            #player {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 85%;
+                height: 85%;
+                background-color: rgba(0, 0, 0, 0.8);
+                z-index: 9999;
+                display: none;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+                border-radius: 5%;
+
+            }
+
+         
+        </style>
+    </head>
+
+    <body>
+        <a href="https://www.youtube.com/watch?v=R9WlSe1B7ac" class="youtube_trailer_path">▶️ Play</a> <br>
+
+
+        <div id="ndiv">
+            <div id="player"></div>
+        </div>
+
+
+        <script src="https://www.youtube.com/iframe_api"></script>
+
+        <script>// Load the YouTube iFrame API
+            function onYouTubeIframeAPIReady ()
+            {
+                // Create a new player instance
+                player = new YT.Player( 'player', {
+                    height: '360',
+                    width: '640',
+                    videoId: '',
+                    playerVars:
+                    {
+                        modestbranding: 1, // hide YouTube logo in player controls
+                    },
+                    events:
+                    {
+                        'onReady': onPlayerReady,
+                        'onStateChange': onPlayerStateChange
+                    }
+                } );
+            }
+
+            // When the player is ready, set up the event listeners
+            function onPlayerReady ( event )
+            {
+                // Add a click event listener to the "Play" link
+                const playLink = document.querySelector( '.youtube_trailer_path' );
+                playLink.addEventListener( 'click', function ( e )
+                {
+                    e.preventDefault();
+                    
+                    // Get the YouTube video ID from the link's href attribute
+                    const videoId = this.href.split( 'v=' )[ 1 ];
+                    
+                    
+                    // Set the video ID and play the video
+                    player.loadVideoById( videoId );
+                    player.playVideo();
+
+
+
+                    // Show the player
+                    const playerDiv = document.querySelector( '#player' );
+                    playerDiv.style.display = 'block';
+
+
+                    
+                } );
+            }
+
+            // When the player's state changes, check if it has finished playing and close the player
+            function onPlayerStateChange ( event )
+            {
+                if ( event.data === YT.PlayerState.ENDED )
+                {
+                    const playerDiv = document.querySelector( '#player' );
+                    playerDiv.style.display = 'none';
+                }
+            }
+
+            //Add a click event listener to the player's background to close the player
+
+            document.addEventListener( "click", ( e ) =>
+            {
+                if ( !e.target.closest( "body *" ) )
+                {
+                    player.stopVideo();
+                    document.querySelector( '#player' ).style.display = 'none';
+
+                }
+            } );
+
+
+
+            // Add a keydown event listener to the document to close the player if the "Esc" key is pressed
+            document.addEventListener( 'keydown', function ( event )
+            {
+                if ( event.key === 'Escape' )
+                {
+                    const playerDiv = document.querySelector( '#player' );
+                    player.stopVideo();
+                    playerDiv.style.display = 'none';
+
+                }
+            } );
+
+        </script>
+    </body>
+
+</html>

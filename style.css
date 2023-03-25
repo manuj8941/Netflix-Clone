@@ -1,4 +1,250 @@
-.movieContainer
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@700&display=swap');
+
+body
 {
-    border: 2px solid red;
+    font-family: 'Source Sans Pro', sans-serif;
+    margin: 0;
+
+
+}
+
+html
+{
+    background-image: url("i.jpg");
+    background-position: center;
+
+}
+
+.movie-card
+{
+    display: none;
+    flex-direction: column;
+    max-width: 300px;
+    margin: 0 auto;
+    background-color: hsl(0, 21%, 10%);
+    color: #fff;
+    border-radius: 5px;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    border: 2px solid #141414;
+    position: relative;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    flex-basis: calc(25% - 20px);
+
+
+}
+
+
+
+.movie-card:hover
+{
+    transform: translateY(-10px);
+    border-color: #fff;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+}
+
+.poster_path-container
+{
+    position: relative;
+    overflow: hidden;
+}
+
+.poster_path
+{
+    width: 100%;
+    height: auto;
+    transition: transform 0.3s ease;
+}
+
+.movie-card:hover .poster_path
+{
+    transform: scale(1.2);
+}
+
+.youtube_trailer_path
+{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 10px 20px;
+    border: none;
+    background-color: #e50914;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, opacity 0.2s ease;
+    opacity: 0;
+    text-decoration: none;
+}
+
+.movie-card:hover .youtube_trailer_path
+{
+    opacity: 1;
+    background-color: #ff0f1f;
+}
+
+.movie-card__info
+{
+    padding: 5px;
+}
+
+.title
+{
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.original_title
+{
+    margin: 0;
+    font-size: 1rem;
+}
+
+.overview
+{
+    margin-top: 10px;
+    font-size: 1rem;
+}
+
+.release_date,
+.original_language
+{
+    margin-top: 10px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.container
+{
+    max-width: 1600px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: left;
+}
+
+
+.span2
+{
+    text-decoration: none;
+    color: blue;
+    cursor: pointer;
+
+}
+
+
+.navbar
+{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    /* background-image: linear-gradient(to bottom right, #232323, #000000); */
+    height: 100px;
+    padding: 0 20px;
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1), 0 2px 1px rgba(255, 255, 255, 0.075);
+}
+
+
+
+.navbar-logo img
+{
+    height: 60px;
+}
+
+.navbar-form
+{
+    display: flex;
+    align-items: center;
+}
+
+.navbar-query
+{
+    height: 45px;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 3px;
+    font-size: 16px;
+    background-color: #333;
+    color: #fff;
+    margin-right: 10px;
+    font-size: 20px;
+}
+
+.navbar-search-button
+{
+    background-color: #e50914;
+    border: none;
+    border-radius: 3px;
+    height: 45px;
+    padding: 3px;
+    color: #fff;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.navbar-search-button:hover
+{
+    background-color: #ff0a16;
+    transition: background-color 0.2s ease-in-out;
+}
+
+#iframe_video
+{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 85%;
+    height: 85%;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 9999;
+    display: none;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 5%;
+
+}
+
+
+#footer
+{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 0;
+    color: rgb(222, 222, 235);
+    text-align: center;
+    padding: 10px;
+    width: 100%;
+    font-weight: bolder;
+    font-size: larger;
+    text-shadow: 10px 10px 20px #0f0f0f80;
+
+}
+
+#footer.transparent
+{
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+hr
+{
+    opacity: 0.25;
+    margin: 0;
+    padding: 0;
+}
+
+h1{
+    color: white;
+    font-size: 50px;
+    font-weight: 900;
+    background-color: rgba(0, 0, 0, 0.5);
+
 }
