@@ -2,3 +2,5 @@ to do
 
 if trailer is null, remove play trailer button
 
+upon pressing escape button, iframe not collapsing sometimes.
+
