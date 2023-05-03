@@ -119,26 +119,15 @@ searchButton.addEventListener( "click", async ( event ) =>
                     iframeVideo.src = youtubeEmbedLink( videoID ) + "?mute=1&autoplay=1";
                     iframeVideo.style.display = "block";
                     console.log( "from regex cors: ", movieList[ i ].title, videoID );
-
-
-
                 } catch ( e )
                 {
-
                     console.log( "here is an error", e );
-
                 }
             }
-
         } );
-
-
 
         container.appendChild( copyMovieContainer );
     };
-
-
-
 } );
 
 document.addEventListener( "keydown", ( e ) =>
@@ -171,14 +160,4 @@ document.addEventListener( "click", ( e ) =>
     }
 } );
 
-window.addEventListener( "scroll", ( e ) =>
-{
-    if ( container.getBoundingClientRect().bottom <= footer.getBoundingClientRect().height )
-    {
-        footer.classList.add( 'transparent' );
-    } else
-    {
-        footer.classList.remove( 'transparent' );
-    }
-} );
 
