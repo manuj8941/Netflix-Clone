@@ -94,7 +94,7 @@ searchButton.addEventListener( "click", async ( event ) =>
         copyMovieContainer.querySelector( ".release_date" ).innerText = new Date( movieList[ i ].release_date ).getFullYear();
         copyMovieContainer.querySelector( ".original_language" ).innerText = langFullName( movieList[ i ].original_language );
 
-    
+
 
         copyMovieContainer.querySelector( ".youtube_trailer_path" ).addEventListener( "click", async ( e ) =>
         {
@@ -105,6 +105,7 @@ searchButton.addEventListener( "click", async ( event ) =>
             {
                 videoID = response2.data.results[ 0 ].key;
                 iframeVideo.src = youtubeEmbedLink( videoID ) + "?mute=1&autoplay=1";
+                
                 iframeVideo.style.display = "block";
                 console.log( "from api: ", movieList[ i ].title, videoID );
             } catch ( e )
@@ -161,3 +162,13 @@ document.addEventListener( "click", ( e ) =>
 } );
 
 
+inputBox.addEventListener( "keypress", ( e ) =>
+{
+    if ( e.key === "Enter" )
+    {
+        if ( inputBox.value )
+        {
+            searchButton.click();
+        }
+    }
+} );
